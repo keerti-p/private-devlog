@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'devlog-secret-2024'
 
 # ── MySQL config ──
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = 'devlog_mysql'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'mysql1234'
 app.config['MYSQL_DB'] = 'devlog_db'
