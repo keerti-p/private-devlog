@@ -1,35 +1,70 @@
-````md
-# 🚀 DevLog — Team Activity Tracker
-### Flask + MySQL + Docker + AWS + Kubernetes + Terraform | Internship Project
+# 🚀 DevLog
 
-A colorful team activity tracker where developers log what they built, deployed, or learned — with kudos, timeline view, stats dashboard, leaderboard, and real-world DevOps deployment workflow.
+### Flask + MySQL + Docker + Jenkins + AWS + Kubernetes + Terraform
 
----
-
-## 📌 Project Highlights
-
-✅ Built and tested locally on personal machine  
-✅ Containerized using Docker  
-✅ Multi-container setup using Docker Compose  
-✅ Docker image pushed to Docker Hub  
-✅ Hosted on AWS EC2  
-✅ Deployed on Kubernetes  
-✅ Infrastructure provisioned using Terraform  
-✅ Ready to push on GitHub
+A modern web application where users can log daily development activities, share updates, give kudos, and track productivity using dashboards, timelines, and statistics.
 
 ---
 
-## 📁 Project Structure
+# 📌 Project Overview
 
-```bash
+DevLog is a full-stack Flask application integrated with MySQL and deployed using a complete DevOps workflow.
+
+The project demonstrates:
+
+* Full-stack web development
+* Database integration
+* Docker containerization
+* Jenkins CI/CD automation
+* AWS cloud deployment
+* Kubernetes orchestration
+* Terraform Infrastructure as Code
+
+---
+
+# 🌟 Features
+
+✅ User Authentication
+✅ Dashboard Activity Feed
+✅ Timeline View
+✅ Kudos / Like System
+✅ Team Leaderboard
+✅ Statistics Dashboard
+✅ Dockerized Deployment
+✅ Jenkins CI/CD Pipeline
+✅ Kubernetes Deployment
+✅ Terraform Infrastructure Provisioning
+
+---
+
+# 🛠 Tech Stack
+
+| Category         | Technology            |
+| ---------------- | --------------------- |
+| Backend          | Python Flask          |
+| Database         | MySQL                 |
+| Frontend         | HTML, CSS, JavaScript |
+| Containerization | Docker                |
+| CI/CD            | Jenkins               |
+| Orchestration    | Kubernetes            |
+| Infrastructure   | Terraform             |
+| Cloud            | AWS EC2               |
+| Version Control  | Git & GitHub          |
+
+---
+
+# 📁 Project Structure
+
+```bash id="k2d0hz"
 devlog/
 ├── app.py                  ← Flask backend (all routes)
 ├── schema.sql              ← MySQL database + sample data
 ├── requirements.txt        ← Python packages
 ├── Dockerfile              ← Docker image for Flask app
 ├── docker-compose.yml      ← Runs Flask + MySQL together
-├── terraform/             ← Terraform IaC files
-├── k8s/                   ← Kubernetes manifests
+├── Jenkinsfile             ← Jenkins CI/CD pipeline
+├── terraform/              ← Terraform IaC files
+├── k8s/                    ← Kubernetes manifests
 └── templates/
     ├── base.html           ← Shared layout + sidebar
     ├── login.html          ← Login page
@@ -38,138 +73,118 @@ devlog/
     ├── post.html           ← Log new activity
     ├── timeline.html       ← Timeline grouped by date
     └── stats.html          ← Leaderboard + charts
-````
+```
 
 ---
 
-## ─────────────────────────────────────────────
+# ⚙️ Local Setup
 
-## PART 1: Run on Local Machine
+## Step 1 — Install MySQL
 
-## ─────────────────────────────────────────────
+### Ubuntu/Linux
 
-### Step 1 — Install MySQL
-
-**Windows:** Install MySQL Installer
-**Mac:**
-
-```bash
-brew install mysql
-brew services start mysql
-```
-
-**Ubuntu/Linux:**
-
-```bash
+```bash id="i6x7ec"
 sudo apt update
 sudo apt install mysql-server
 sudo systemctl start mysql
 ```
 
+### Mac
+
+```bash id="jmfsyw"
+brew install mysql
+brew services start mysql
+```
+
+### Windows
+
+Install MySQL Installer and start MySQL service.
+
 ---
 
-### Step 2 — Setup Database
+## Step 2 — Configure Database
 
-```bash
+Login to MySQL:
+
+```bash id="zjlwmk"
 mysql -u root -p
 ```
 
-Run:
+Run schema file:
 
-```sql
+```sql id="7q2b9v"
 source schema.sql;
 ```
 
 Creates:
 
-* Database: `devlog_db`
-* User: `devlog_user`
-* Password: `devlog_pass`
+* Database → `devlog_db`
+* User → `devlog_user`
+* Password → `devlog_pass`
 
 ---
 
-### Step 3 — Create Virtual Environment
+## Step 3 — Install Dependencies
 
-```bash
-cd devlog
-python -m venv venv
-```
-
-Activate:
-
-```bash
-# Windows
-venv\Scripts\activate
-
-# Linux/Mac
-source venv/bin/activate
-```
-
----
-
-### Step 4 — Install Requirements
-
-```bash
+```bash id="nwd6xy"
 pip install -r requirements.txt
 ```
 
 ---
 
-### Step 5 — Run Flask App
+## Step 4 — Run Flask Application
 
-```bash
+```bash id="l9xxm4"
 python app.py
 ```
 
-Open:
+Open in browser:
 
-```bash
+```bash id="fj7u7k"
 http://localhost:5000
 ```
 
 ---
 
-## ─────────────────────────────────────────────
+# 🐳 Docker Setup
 
-## PART 2: Run with Docker
+## Build Docker Image
 
-## ─────────────────────────────────────────────
-
-### Build Image
-
-```bash
+```bash id="69q5u2"
 docker build -t devlog .
 ```
 
-### Run Container
+---
 
-```bash
+## Run Docker Container
+
+```bash id="pbhl0d"
 docker run -d -p 5000:5000 devlog
 ```
 
 Open:
 
-```bash
+```bash id="6o6kj5"
 http://localhost:5000
 ```
 
 ---
 
-## ─────────────────────────────────────────────
+# 🧩 Docker Compose Setup
 
-## PART 3: Run with Docker Compose
+Docker Compose runs Flask and MySQL together.
 
-## ─────────────────────────────────────────────
+## Start Containers
 
-Runs Flask + MySQL together.
-
-```bash
+```bash id="r4iqf3"
 docker compose up --build -d
 ```
 
-Useful commands:
+---
 
-```bash
+## Useful Commands
+
+```bash id="5z8mkm"
 docker compose logs
 docker compose down
 docker compose down -v
@@ -178,70 +193,63 @@ docker ps
 
 ---
 
-## ─────────────────────────────────────────────
+# ☁️ AWS EC2 Deployment
 
-## PART 4: Push Image to Docker Hub
+## Launch EC2 Instance
 
-## ─────────────────────────────────────────────
+Open ports in Security Group:
 
-```bash
-docker login
-docker tag devlog yourdockerhubusername/devlog:latest
-docker push yourdockerhubusername/devlog:latest
+* 22 → SSH
+* 80 → HTTP
+* 5000 → Flask App
+
+---
+
+## Connect to EC2
+
+```bash id="b8s7ns"
+ssh -i key.pem ubuntu@your-public-ip
 ```
 
 ---
 
-## ─────────────────────────────────────────────
+## Pull Docker Image
 
-## PART 5: Deploy on AWS EC2
-
-## ─────────────────────────────────────────────
-
-### Launch EC2 Instance
-
-Open ports:
-
-* 22 (SSH)
-* 80
-* 5000
-
-### Connect Server
-
-```bash
-ssh -i key.pem ubuntu@your-public-ip
+```bash id="n0tt9x"
+docker pull yourdockerhubusername/devlog:latest
 ```
 
-### Install Docker & Run App
+---
 
-```bash
-docker pull yourdockerhubusername/devlog:latest
+## Run Application
+
+```bash id="9t2u9k"
 docker run -d -p 80:5000 yourdockerhubusername/devlog:latest
 ```
 
 Access:
 
-```bash
+```bash id="i0km3w"
 http://your-public-ip
 ```
 
 ---
 
-## ─────────────────────────────────────────────
-
-## PART 6: Deploy on Kubernetes
-
-## ─────────────────────────────────────────────
+# ☸️ Kubernetes Deployment
 
 Inside `k8s/` folder:
 
-```bash
+## Deploy Resources
+
+```bash id="r0b9zj"
 kubectl apply -f .
 ```
 
-Verify:
+---
 
-```bash
+## Verify Deployment
+
+```bash id="0gfgn5"
 kubectl get pods
 kubectl get svc
 kubectl get deployments
@@ -249,76 +257,293 @@ kubectl get deployments
 
 ---
 
-## ─────────────────────────────────────────────
-
-## PART 7: Terraform Infrastructure
-
-## ─────────────────────────────────────────────
+# 🏗 Terraform Infrastructure
 
 Inside `terraform/` folder:
 
-```bash
+## Initialize Terraform
+
+```bash id="w4ru3e"
 terraform init
+```
+
+---
+
+## Check Infrastructure Plan
+
+```bash id="p74b6x"
 terraform plan
+```
+
+---
+
+## Create Infrastructure
+
+```bash id="1alvmm"
 terraform apply
 ```
 
-Destroy:
+---
 
-```bash
+## Destroy Infrastructure
+
+```bash id="smxhfy"
 terraform destroy
 ```
 
 ---
 
-## 🔧 How Architecture Works
+# 🔄 Jenkins CI/CD Pipeline
 
-```text
-Browser
+The project uses Jenkins to automate the software delivery process from source code checkout to deployment.
+
+---
+
+# 🖥 Jenkins Infrastructure Setup
+
+## Jenkins Master Node
+
+A dedicated EC2 instance was configured as Jenkins Master.
+
+Installed Components:
+
+* Java
+* Jenkins
+* Docker
+
+Responsibilities:
+
+* Manage Jenkins jobs
+* Trigger CI/CD pipelines
+* Connect with GitHub repository
+* Manage slave agents
+* Monitor build execution
+
+---
+
+## Jenkins Slave Node
+
+A separate EC2 instance was configured as Jenkins Slave Node.
+
+Installed Components:
+
+* Java
+* Docker
+* Python
+* Python dependencies
+
+Responsibilities:
+
+* Execute pipeline stages
+* Run application tests
+* Build Docker images
+* Push images to Docker Hub
+* Deploy application
+
+The slave node was attached to the Jenkins Master using Jenkins agent configuration.
+
+---
+
+# ⚡ Detailed Jenkins Pipeline Workflow
+
+The Jenkins pipeline automates the complete DevOps lifecycle.
+
+---
+
+## Stage 1 — Git Checkout
+
+The pipeline pulls the latest source code from GitHub repository.
+
+```bash id="s0uxzv"
+git clone <repository-url>
+```
+
+Purpose:
+
+* Fetch latest application code
+* Maintain updated deployment version
+
+---
+
+## Stage 2 — Install Dependencies
+
+Required Python packages are installed automatically.
+
+```bash id="twul0v"
+pip install -r requirements.txt
+```
+
+Purpose:
+
+* Install Flask packages
+* Install MySQL connector
+* Prepare application environment
+
+---
+
+## Stage 3 — Run Automated Tests
+
+Application testing is executed before Docker build.
+
+```bash id="4l0q6v"
+python -m pytest
+```
+
+Purpose:
+
+* Validate application functionality
+* Detect bugs before deployment
+
+---
+
+## Stage 4 — Build Docker Image
+
+The Flask application is containerized into Docker image.
+
+```bash id="d9m8gl"
+docker build -t devlog .
+```
+
+Purpose:
+
+* Create portable application image
+* Ensure consistent runtime environment
+
+---
+
+## Stage 5 — Docker Hub Authentication
+
+Jenkins securely logs in to Docker Hub using stored credentials.
+
+```bash id="evn4sd"
+docker login
+```
+
+Purpose:
+
+* Authenticate Docker registry access
+* Enable image push operation
+
+---
+
+## Stage 6 — Tag Docker Image
+
+Docker image is tagged before pushing.
+
+```bash id="gw59zi"
+docker tag devlog username/devlog:latest
+```
+
+Purpose:
+
+* Create versioned image
+* Prepare for Docker Hub upload
+
+---
+
+## Stage 7 — Push Docker Image
+
+Docker image is pushed to Docker Hub repository.
+
+```bash id="n4m9r5"
+docker push username/devlog:latest
+```
+
+Purpose:
+
+* Store image in centralized registry
+* Enable deployment from any environment
+
+---
+
+## Stage 8 — Deployment
+
+The latest Docker image is deployed.
+
+Deployment Targets:
+
+* AWS EC2
+* Kubernetes Cluster
+
+Purpose:
+
+* Run latest application version
+* Enable continuous deployment
+
+---
+
+## Stage 9 — Email Notification
+
+Jenkins sends pipeline status notifications through email.
+
+Notifications Include:
+
+* Build Success
+* Build Failure
+* Deployment Status
+
+Purpose:
+
+* Continuous monitoring
+* Deployment visibility
+
+---
+
+# 📊 Jenkins Pipeline Workflow Architecture
+
+```text id="79mw3n"
+Developer
+    ↓
+Push Code to GitHub
+    ↓
+Jenkins Master Node
+    ↓
+Trigger Jenkins Pipeline
+    ↓
+Jenkins Slave Node
+    ↓
+Git Checkout
+    ↓
+Install Dependencies
+    ↓
+Run Tests
+    ↓
+Build Docker Image
+    ↓
+Docker Hub Login
+    ↓
+Push Docker Image
+    ↓
+Deploy Application
+    ↓
+Send Email Notification
+```
+
+---
+
+# 🔄 Complete Project Workflow
+
+```text id="x8r9al"
+User
    ↓
-Flask App
+Flask Web Application
    ↓
 MySQL Database
    ↓
 Docker Container
    ↓
+Jenkins CI/CD Pipeline
+   ↓
+Docker Hub
+   ↓
 AWS EC2 / Kubernetes
    ↓
-Provisioned using Terraform
+Terraform Infrastructure
 ```
 
 ---
 
-## 🌟 Features Summary
-
-| Feature       | Route       | Description           |
-| ------------- | ----------- | --------------------- |
-| Login         | /login      | Secure authentication |
-| Register      | /register   | New user signup       |
-| Dashboard     | /dashboard  | Activity feed         |
-| Post Activity | /post       | Add new work logs     |
-| Timeline      | /timeline   | Activities by date    |
-| Stats         | /stats      | Charts + leaderboard  |
-| Kudos         | /kudos/<id> | Like system           |
-
----
-
-## 🎨 Tech Stack
-
-* Python 3.11
-* Flask
-* MySQL
-* HTML / CSS / JS
-* Docker
-* Docker Compose
-* Docker Hub
-* AWS EC2
-* Kubernetes
-* Terraform
-
----
-
-## 🔐 Demo Login
+# 🔐 Demo Credentials
 
 | Username | Password |
 | -------- | -------- |
@@ -328,53 +553,97 @@ Provisioned using Terraform
 
 ---
 
-## ❓ Troubleshooting
+# 🧪 Useful Commands
 
-### MySQL not connecting
+## Docker Commands
 
-```bash
+```bash id="e9on7f"
+docker ps
+docker images
+docker logs <container-id>
+```
+
+---
+
+## Kubernetes Commands
+
+```bash id="s07r89"
+kubectl get pods
+kubectl describe pod <pod-name>
+kubectl logs <pod-name>
+```
+
+---
+
+## Terraform Commands
+
+```bash id="jlwm81"
+terraform validate
+terraform plan
+terraform apply
+```
+
+---
+
+# ❓ Troubleshooting
+
+## MySQL Connection Issue
+
+```bash id="y1wtjl"
 sudo systemctl status mysql
 ```
 
-### Docker port already used
+---
 
-```bash
+## Docker Port Already in Use
+
+```bash id="53zyyn"
 docker ps
 ```
 
 Stop conflicting container.
 
-### Kubernetes pod issue
+---
 
-```bash
+## Kubernetes Pod Logs
+
+```bash id="lb1byr"
 kubectl logs <pod-name>
 ```
 
-### Terraform issue
+---
 
-```bash
+## Terraform Validation
+
+```bash id="l3th8h"
 terraform validate
 ```
 
 ---
 
-## 📚 Learning Outcomes
+# 📚 Learning Outcomes
 
 ✅ Flask full-stack development
-✅ Database integration
+✅ MySQL database integration
 ✅ Authentication system
 ✅ Docker containerization
 ✅ Docker Compose orchestration
+✅ Jenkins CI/CD pipeline implementation
+✅ Jenkins master-slave architecture
 ✅ Docker Hub image management
-✅ AWS hosting
-✅ Kubernetes deployment
+✅ AWS EC2 deployment
+✅ Kubernetes orchestration
 ✅ Terraform Infrastructure as Code
+✅ Automated deployment workflow
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-**Keerti patil
+**Keerti Patil**
+
+---
+
 
 ## ⭐ GitHub
 
