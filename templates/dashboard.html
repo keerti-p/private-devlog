@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Activity Feed{% endblock %}
+
+{% block content %}
+<div style="display:flex;gap:24px;align-items:flex-start;">
+
+  <!-- ── Feed ── -->
+  <div style="flex:1;display:flex;flex-direction:column;gap:16px;">
+    {% for a in activities %}
+    {% set colors = {'KT':'av-purple','AR':'av-teal','MS':'av-coral'} %}
+    <div class="card activity-card tag-{{ a.tag }}" id="act-{{ a.id }}">
+      <div class="card-head">
+        <div class="av {{ colors.get(a.avatar_initials, 'av-purple') }}" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;">{{ a.avatar_initials }}</div>
+        <span class="card-user">{{ a.username }}</span>
+        <span class="card-time">{{ a.created_at.strftime('%b %d, %I:%M %p') }}</span>
+      </div>
+      <span class="tag-badge badge-{{ a.tag }}">{{ a.tag }}</span>
+      <div class="act-title">{{ a.title }}</div>
+      <div class="act-desc">{{ a.description }}</div>
+      <div class="card-foot">
+        <button class="kudos-btn {% if a.user_gave_kudos %}given{% endif %}"
+                onclick="toggleKudos({{ a.id }}, this)">
+          ♥ Kudos
+        </button>
+        <span class="kudos-count" id="kc-{{ a.id }}">{{ a.kudos_count }} kudos</span>
+      </div>
+    </div>
+    {% else %}
+    <div class="card" style="text-align:center;padding:40px;color:#9998B8;">
+      No activities yet. Be the first to log something! 🚀
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ── Sidebar stats ── -->
+  <div style="width:220px;flex-shrink:0;display:flex;flex-direction:column;gap:14px;">
+
+    <div class="stat-card">
+      <div class="stat-label">Total Activities</div>
+      <div class="stat-value purple">{{ total }}</div>
+      <div class="stat-sub">across all members</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Team Members</div>
+      <div class="stat-value teal">{{ members }}</div>
+      <div class="stat-sub">active users</div>
+    </div>
+
+    {% if most_active %}
+    <div class="stat-card">
+      <div class="stat-label">Most Active Day</div>
+      <div class="stat-value" style="font-size:18px;color:#534AB7;">{{ most_active.day }}</div>
+      <div class="stat-sub">{{ most_active.cnt }} activities</div>
+    </div>
+    {% endif %}
+
+    <!-- Recent Timeline mini -->
+    <div class="card" style="padding:14px;">
+      <div style="font-size:12px;font-weight:600;color:#534AB7;margin-bottom:12px;">📅 Recent</div>
+      {% for r in recent %}
+      <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
+        <div style="width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0;
+          background:{{'#1D9E75' if r.tag=='Deploy' else '#7F77DD' if r.tag=='Build' else '#378ADD' if r.tag=='Learn' else '#D85A30' if r.tag=='Fix' else '#BA7517'}};"></div>
+        <div>
+          <div style="font-size:12px;font-weight:500;color:#1a1830;line-height:1.3;">{{ r.title[:40] }}{% if r.title|length > 40 %}…{% endif %}</div>
+          <div style="font-size:10px;color:#9998B8;margin-top:1px;">{{ r.created_at.strftime('%b %d') }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function toggleKudos(id, btn) {
+  const res  = await fetch(`/kudos/${id}`, {method:'POST'});
+  const data = await res.json();
+  document.getElementById(`kc-${id}`).textContent = `${data.kudos} kudos`;
+  btn.classList.toggle('given', data.given);
+}
+</script>
+{% endblock %}

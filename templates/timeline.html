@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Timeline{% endblock %}
+{% block page_title %}📅 Activity Timeline{% endblock %}
+
+{% block content %}
+{% if grouped %}
+  {% for date_label, items in grouped.items() %}
+  <div class="tl-group">
+    <div class="tl-date-label">{{ date_label }}</div>
+    <div class="tl-items">
+      {% for a in items %}
+      <div class="tl-dot-wrap">
+        <div class="card activity-card tag-{{ a.tag }}" style="padding:14px 16px;">
+          <div class="card-head">
+            <div class="av av-purple" style="width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;">{{ a.avatar_initials }}</div>
+            <span class="card-user">{{ a.username }}</span>
+            <span class="tag-badge badge-{{ a.tag }}" style="margin-bottom:0;margin-left:6px;">{{ a.tag }}</span>
+            <span class="card-time">{{ a.created_at.strftime('%I:%M %p') }}</span>
+          </div>
+          <div class="act-title" style="font-size:14px;margin-top:6px;">{{ a.title }}</div>
+          {% if a.description %}
+          <div class="act-desc" style="margin-top:4px;margin-bottom:0;">{{ a.description }}</div>
+          {% endif %}
+          <div style="margin-top:8px;font-size:12px;color:#9998B8;">♥ {{ a.kudos_count }} kudos</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="card" style="text-align:center;padding:60px;color:#9998B8;">
+    No activities yet. Start logging! 🚀
+  </div>
+{% endif %}
+{% endblock %}

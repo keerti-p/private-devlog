@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DevLog – Register</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --purple-900:#26215C;--purple-800:#3C3489;--purple-600:#534AB7;
+      --purple-400:#7F77DD;--purple-100:#CECBF6;--purple-50:#EEEDFE;
+      --teal-50:#E1F5EE;--teal-400:#1D9E75;--teal-600:#0F6E56;
+      --coral-50:#FAECE7;--coral-400:#D85A30;--coral-600:#993C1D;
+      --border:#E8E6F8;--text:#1a1830;--text-sec:#6B6A8A;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#26215C 0%,#534AB7 50%,#1D9E75 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+    .auth-wrap{width:100%;max-width:420px;padding:20px;}
+    .auth-card{background:#fff;border-radius:16px;padding:36px;box-shadow:0 20px 60px rgba(38,33,92,.25);}
+    .brand{text-align:center;margin-bottom:28px;}
+    .brand-logo{font-size:28px;font-weight:700;color:var(--purple-600);}
+    .brand-tag{font-size:13px;color:var(--text-sec);margin-top:4px;}
+    h2{font-size:20px;font-weight:600;color:var(--text);margin-bottom:6px;}
+    .sub{font-size:13px;color:var(--text-sec);margin-bottom:24px;}
+    .form-group{margin-bottom:16px;}
+    label{display:block;font-size:13px;font-weight:500;color:var(--text-sec);margin-bottom:6px;}
+    input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;color:var(--text);transition:.15s;}
+    input:focus{outline:none;border-color:var(--purple-400);box-shadow:0 0 0 3px var(--purple-50);}
+    .btn{width:100%;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;margin-top:8px;}
+    .btn-primary{background:var(--purple-600);color:#fff;}
+    .btn-primary:hover{background:var(--purple-800);}
+    .auth-footer{text-align:center;margin-top:20px;font-size:13px;color:var(--text-sec);}
+    .auth-footer a{color:var(--purple-600);text-decoration:none;font-weight:500;}
+    .flash{padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:13px;font-weight:500;}
+    .flash.error{background:var(--coral-50);color:var(--coral-600);border:1px solid #F5C4B3;}
+    .flash.success{background:var(--teal-50);color:var(--teal-600);border:1px solid #9FE1CB;}
+  </style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-logo">🚀 DevLog</div>
+      <div class="brand-tag">Team Activity Tracker</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <h2>Create account</h2>
+    <p class="sub">Join your team and start logging your progress.</p>
+
+    <form method="POST">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Choose a username" required minlength="3"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Choose a password" required minlength="6"/>
+      </div>
+      <button class="btn btn-primary" type="submit">Create Account →</button>
+    </form>
+    <div class="auth-footer">
+      Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

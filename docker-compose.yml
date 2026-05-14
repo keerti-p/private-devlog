@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: devlog_mysql
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql1234
+      MYSQL_DATABASE: devlog_db
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+    ports:
+      - "3308:3306"
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmysql1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    container_name: devlog_web
+    restart: always
+
+    ports:
+      - "5005:5000"
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

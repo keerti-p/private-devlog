@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Log Activity{% endblock %}
+{% block page_title %}Log an Activity{% endblock %}
+
+{% block content %}
+<div style="max-width:600px;">
+  <div class="card">
+    <p style="font-size:13px;color:#6B6A8A;margin-bottom:24px;">
+      Share what you deployed, built, learned, or fixed today. Your teammates can give you kudos! 🎉
+    </p>
+    <form method="POST">
+      <div class="form-group">
+        <label class="form-label">Activity Title</label>
+        <input class="form-control" type="text" name="title"
+               placeholder="e.g. Deployed Flask App on AWS" required maxlength="150"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tag</label>
+        <select class="form-control" name="tag">
+          <option value="Deploy">🚀 Deploy</option>
+          <option value="Build" selected>🔨 Build</option>
+          <option value="Learn">📚 Learn</option>
+          <option value="Fix">🐛 Fix</option>
+          <option value="Research">🔬 Research</option>
+          <option value="Other">✨ Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="4"
+                  placeholder="What did you do? What tools/tech did you use? Any interesting outcomes?"></textarea>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px;">
+        <button class="btn btn-primary" type="submit">Post Activity 🚀</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tag legend -->
+  <div class="card" style="margin-top:16px;padding:14px 18px;">
+    <div style="font-size:12px;font-weight:600;color:#6B6A8A;margin-bottom:10px;">Tag Guide</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span class="tag-badge badge-Deploy">🚀 Deploy</span>
+      <span class="tag-badge badge-Build">🔨 Build</span>
+      <span class="tag-badge badge-Learn">📚 Learn</span>
+      <span class="tag-badge badge-Fix">🐛 Fix</span>
+      <span class="tag-badge badge-Research">🔬 Research</span>
+      <span class="tag-badge badge-Other">✨ Other</span>
+    </div>
+  </div>
+</div>
+{% endblock %}
